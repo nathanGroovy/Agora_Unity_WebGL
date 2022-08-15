@@ -1320,6 +1320,9 @@ namespace agora_gaming_rtc
         protected static extern int enableEncryption(bool enabled, string encryptionKey, int encryptionMode, byte[] encryptionKdfSalt);
 
         [DllImport(MyLibName, CharSet = CharSet.Ansi)]
+        protected static extern int enableEncryption2(bool enabled, string encryptionKey, int encryptionMode, byte[] encryptionKdfSalt);
+
+        [DllImport(MyLibName, CharSet = CharSet.Ansi)]
         protected static extern int enableRemoteSuperResolution(bool enabled, int mode, uint userId);
 
         [DllImport(MyLibName, CharSet = CharSet.Ansi)]

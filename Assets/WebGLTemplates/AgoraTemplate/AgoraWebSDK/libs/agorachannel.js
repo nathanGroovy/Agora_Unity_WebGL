@@ -875,7 +875,7 @@ class AgoraChannel {
     }
   }
 
-  enableEncryption2_mc(enable, encryptionKey_Str, encryptionMode) {
+  enableEncryption2_mc(enable, encryptionKey_Str, encryptionMode, encryptionSalt) {
     var modestr = "none";
 
     if (enable) {
@@ -893,6 +893,7 @@ class AgoraChannel {
     }
     if (this.client) {
       this.client.setEncryptionConfig(modestr, encryptionKey_Str);
+      console.log("encryption configuration updated");
     }
   }
 

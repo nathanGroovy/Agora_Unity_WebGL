@@ -1297,13 +1297,13 @@ var LibraryAgoraWebGLSDK = {
   },
 
   enableEncryption2: function (
-    channel,
     enabled,
     encryptionKey,
-    encryptionMode
+    encryptionMode,
+    encryptionSalt
   ) {
     var encryptionKey_Str = Pointer_stringify(encryptionKey);
-    enableEncryption2_mc(enabled, encryptionKey_Str, encryptionMode);
+    enableEncryption2_mc(enabled, encryptionKey_Str, encryptionMode, encryptionSalt);
   },
 
   setDefaultMuteAllRemoteAudioStreams: function (channel, mute) {

@@ -3808,6 +3808,35 @@ namespace agora_gaming_rtc
             return IRtcEngineNative.enableEncryption(enabled, encryptionConfig.encryptionKey, (int)encryptionConfig.encryptionMode, encryptionConfig.encryptionKdfSalt);
         }
 
+        /** Enables/Disables the built-in encryption for multichannel.
+         *
+         * @since v3.2.1
+         *
+         * In scenarios requiring high security, Agora recommends calling this method to enable the built-in encryption before joining a channel.
+         *
+         * All users in the same channel must use the same encryption mode and encryption key. After a user leaves the
+         * channel, the SDK automatically disables the built-in encryption. To enable the built-in encryption, call
+         * this method before the user joins the channel again.
+         *
+         * @note If you enable the built-in encryption, you cannot use the RTMP or RTMPS streaming function.
+         *
+         * @param enabled Whether to enable the built-in encryption:
+         * - true: Enable the built-in encryption.
+         * - false: Disable the built-in encryption.
+         * @param encryptionConfig Configurations of built-in encryption schemas. See EncryptionConfig.
+         *
+         * @return
+         * - 0: Success.
+         * - < 0: Failure.
+         *  - -2(ERR_INVALID_ARGUMENT): An invalid parameter is used. Set the parameter with a valid value.
+         *  - -4(ERR_NOT_SUPPORTED): The encryption mode is incorrect or the SDK fails to load the external encryption library. Check the enumeration or reload the external encryption library.
+         *  - -7(ERR_NOT_INITIALIZED): The SDK is not initialized. Initialize the `IRtcEngine` instance before calling this method.
+         */
+        public int EnableEncryption2(bool enabled, EncryptionConfig encryptionConfig)
+        {
+            return IRtcEngineNative.enableEncryption2(enabled, encryptionConfig.encryptionKey, (int)encryptionConfig.encryptionMode, encryptionConfig.encryptionKdfSalt);
+        }
+
         /** Enables/Disables the super-resolution algorithm for a remote user's video stream.
          *
          * @since v3.5.1
