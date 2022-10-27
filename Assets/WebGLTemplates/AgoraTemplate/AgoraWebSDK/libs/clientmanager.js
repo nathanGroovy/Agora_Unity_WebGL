@@ -189,7 +189,7 @@ class ClientManager {
       event_manager.raiseOnRemoteUserMuted(id.toString(), mediaType, 0);
       this.getRemoteVideoStats(id);
     }
-    remoteUsers[id] = user;
+    
   }
 
   // Note this event doesn't truly map to Unity's OnUserJoined
@@ -197,7 +197,8 @@ class ClientManager {
   // see the event raised in subscribe_remoteuser instead
   handleUserJoined(user, mediaType) {
     const id = user.uid;
-    console.log("remote user id" , id);
+
+    remoteUsers[id] = user;
 
     if(this.spatialAudio !== undefined && this.spatialAudio.enabled === true){
       this.enableSpatialAudio(true, user);
