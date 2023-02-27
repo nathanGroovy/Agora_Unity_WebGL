@@ -1091,6 +1091,14 @@ namespace agora_gaming_rtc
 
         }
 
+        public void OnPlaybackAudioFrameBeforeMixingHandler(string eventData){
+            string[] events = eventData.Split('|');
+            uint uid = (uint)int.Parse(events[0]);;
+            string frame = events[1];
+            Debug.Log("Playback Callback worked");
+            //AudioRawDataManager.GetInstance().OnPlaybackAudioFrameBeforeMixingHandler(uid, frame);
+        }
+
 
         // sending to OnAudioVolumeIndicationCallback(string volumeInfo, int speakerNumber, int totalVolume)
         // volumn info is <uid volume vad channel>* 

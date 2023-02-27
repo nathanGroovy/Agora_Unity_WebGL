@@ -1122,9 +1122,28 @@ var LibraryAgoraWebGLSDK = {
     stopChannelMediaRelay_MC();
   },
   startAudioRecordingDeviceTest: function (indicationInterval) {},
-  initEventOnPlaybackAudioFrameBeforeMixing: function (
-    onPlaybackAudioFrameBeforeMixing
-  ) {},
+  initEventOnPlaybackAudioFrameBeforeMixing: function (onPlaybackAudioFrameBeforeMixing) {
+    UnityHooks.onPlaybackAudioFrameBeforeMixing = onPlaybackAudioFrameBeforeMixing;
+    UnityHooks.InvokePlaybackAudioFrameBeforeMixing = function(uid, audioFrame) {
+      console.log(audioFrame);
+
+      if(UnityHooks.data){
+        _free(UnityHooks.data);
+      }
+
+      for (var key in audioFrame){
+        var mainBytesArray = [];
+        for(var i = 0; i < audioFrame[key].length; i++)
+          mainBytesArray.push(audioFrame[key].charCodeAt(i));
+      }
+      console.log(mainBytesArray);
+      var data = _malloc(audioFrame);
+      
+      UnityHooks.data = data;
+      console.log(data, UnityHooks.onPlaybackAudioFrameBeforeMixing);
+      //Module['dynCall_viiiiiiiii'](UnityHooks.onPlaybackAudioFrameBeforeMixing, uid, 0, audioFrame.length, audioFrame.sampleRate, audioFrame.numberOfChannels, audioFrame.duration, data, 0, 0);
+    };
+  },
   setAudioPlaybackDeviceMute: function (mute) {
     setAudioPlaybackDeviceMute(mute);
   },

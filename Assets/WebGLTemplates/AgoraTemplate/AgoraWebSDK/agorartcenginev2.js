@@ -194,6 +194,10 @@ async function setMirrorApplied_WGL(apply) {
   }
 }
 
+function handlePlaybackAudioFrameBeforeMixing(){
+    client_manager.handlePlaybackAudioFrameBeforeMixing();
+}
+
 function setAudioRecordingDeviceVolume(volume) {
   if (localTracks.audioTrack) {
     localTracks.audioTrack.setVolume(volume);

@@ -184,12 +184,22 @@ class ClientManager {
       || mediaType == "audio" && this.screenShareClient != null
       && id != this.screenShareClient.uid)) {
       await this.subscribe_remoteuser(user, mediaType);
+      if(UnityHooks.InvokePlaybackAudioFrameBeforeMixing != undefined){
+        this.handlePlaybackAudioFrameBeforeMixing(id)
+      }
     } else if(this.videoSubscribing && mediaType == "video" && remoteUsers) {
       await this.subscribe_remoteuser(user, mediaType);
       event_manager.raiseOnRemoteUserMuted(id.toString(), mediaType, 0);
       this.getRemoteVideoStats(id);
     }
     remoteUsers[id] = user;
+  }
+
+  async handlePlaybackAudioFrameBeforeMixing(uid){
+    console.log("handle Playback Callback");
+    remoteUsers[uid].audioTrack.setAudioFrameCallback((buffer) => {
+      UnityHooks.InvokePlaybackAudioFrameBeforeMixing(uid, buffer);
+    });
   }
 
   // Note this event doesn't truly map to Unity's OnUserJoined
@@ -1213,5 +1223,9 @@ async setVirtualBackgroundVideo(videoFile){
      this.spatialAudio.updateSpatialAttenuation(uid, attenuation);
      this.spatialAudio.updateSpatialBlur(uid, blur);
      this.spatialAudio.updateSpatialAirAbsorb(uid, airAbsorb);
+  }
+
+  async PlaybackAudioFrameBeforeMixing(audioFrame){
+    
   }
 }
