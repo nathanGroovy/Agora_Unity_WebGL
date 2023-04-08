@@ -1125,23 +1125,24 @@ var LibraryAgoraWebGLSDK = {
   initEventOnPlaybackAudioFrameBeforeMixing: function (onPlaybackAudioFrameBeforeMixing) {
     UnityHooks.onPlaybackAudioFrameBeforeMixing = onPlaybackAudioFrameBeforeMixing;
     UnityHooks.InvokePlaybackAudioFrameBeforeMixing = function(uid, audioFrame) {
-      console.log(audioFrame);
-
-      if(UnityHooks.data){
-        _free(UnityHooks.data);
-      }
-
-      for (var key in audioFrame){
-        var mainBytesArray = [];
-        for(var i = 0; i < audioFrame[key].length; i++)
-          mainBytesArray.push(audioFrame[key].charCodeAt(i));
-      }
-      console.log(mainBytesArray);
-      var data = _malloc(audioFrame);
       
-      UnityHooks.data = data;
-      console.log(data, UnityHooks.onPlaybackAudioFrameBeforeMixing);
-      //Module['dynCall_viiiiiiiii'](UnityHooks.onPlaybackAudioFrameBeforeMixing, uid, 0, audioFrame.length, audioFrame.sampleRate, audioFrame.numberOfChannels, audioFrame.duration, data, 0, 0);
+
+    _free(UnityHooks.data);
+
+
+      // This gives us the actual array that contains the data
+  
+    var channelBuffer = audioFrame.getChannelData(0);
+
+    var bufferString = channelBuffer.join(',');
+
+    var bufferSize = lengthBytesUTF8(bufferString) + 1;
+        
+    var buffer = _malloc(bufferSize);
+    stringToUTF8(bufferString, buffer, bufferSize);
+    UnityHooks.data = buffer;
+    //Module['dynCall_viiiiiiii'](UnityHooks.onPlaybackAudioFrameBeforeMixing, uid, 0, audioFrame.length, 32, audioFrame.channels, audioFrame.samplesPerSec, buffer, 0, 0);
+    Module['dynCall_viiiiiiiii'](UnityHooks.onPlaybackAudioFrameBeforeMixing, uid, 0, audioFrame.length, 32, audioFrame.channels, audioFrame.samplesPerSec, audioFrame.channels, buffer, 0, 0);
     };
   },
   setAudioPlaybackDeviceMute: function (mute) {

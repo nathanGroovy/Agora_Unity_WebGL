@@ -1,6 +1,7 @@
 using System.Runtime.InteropServices;
 using System;
 using AOT;
+using UnityEngine;
 
 namespace agora_gaming_rtc
 {
@@ -364,9 +365,9 @@ namespace agora_gaming_rtc
         } 
 
         [MonoPInvokeCallback(typeof(EngineEventOnPlaybackAudioFrameBeforeMixing))]
-        private static void OnPlaybackAudioFrameBeforeMixingCallback(uint uid, int type, int samples, int bytesPerSample, int channels, int samplesPerSec, IntPtr buffer, long renderTimeMs, int avsync_type)
+        private static void OnPlaybackAudioFrameBeforeMixingCallback(uint uid, int type, int samples, int bytesPerSample, int channels, int samplesPerSec, IntPtr buffer, int renderTimeMs, int avsync_type)
         {
-            
+            Debug.Log("Did it get this far?");
             if (_irtcEngine != null && _audioRawDataManagerInstance != null && _audioRawDataManagerInstance.OnPlaybackAudioFrameBeforeMixing != null)
             {
                 AudioFrame audioFrame = new AudioFrame();
