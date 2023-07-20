@@ -268,7 +268,17 @@ public class VirtualBackgroundClientDemo : MonoBehaviour
         joinedChannel = false;
     }
 
-    
+    void OnDestroy()
+    {
+        Debug.Log("OnApplicationQuit");
+        if (mRtcEngine != null)
+        {
+            LeaveChannel();
+            mRtcEngine.DisableVideo();
+            mRtcEngine.DisableVideoObserver();
+            IRtcEngine.Destroy();
+        }
+    }
 
     void userVideoMutedHandler(uint uid, bool muted)
     {
@@ -437,4 +447,6 @@ public class VirtualBackgroundClientDemo : MonoBehaviour
             Object.Destroy(go);
         }
     }
+
+    
 }
